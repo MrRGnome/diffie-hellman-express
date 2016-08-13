@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="diffie-hellman-web">
+    <meta name="author" content="Austin Fay">
+
+    <title>Diffie-Hellman Example Browser/Node.js</title>
+
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    
+    
+
+</head>
+<body>
+    <h3>Diffie-Hellman Key Exchange</h3>
+    <h5>A Diffie-Hellman key exchange uses public key cryptography to share a secret between multiple parties enabling secure communication, without ever transmitting the secret.</h5>
+    <div id="log">
+        
+    </div>
+    <script>
+        $.ready(setTimeout(function () {
+            $.get('/diffie-hellman/start', function (result) {
+                sessionStorage['serverPubKey'] = result.key;
+                sessionStorage['generator'] = result.generator;
+                sessionStorage['prime'] = result.prime;
+                $('#log').append('<p>' + Date.now() + ': Handshake response recieved</p>');
+                setTimeout(function () {
+                    $.getScript('/js/bundle.js');
+                }, 100);
+            });
+            $('#log').append('<p>' + Date.now() + ': Loading crypto module (this may take some time) and initiating handshake: waiting for prime, generator, and pubkey </p>');
+        }, 100));
+    </script>
+</body>
+</html>
