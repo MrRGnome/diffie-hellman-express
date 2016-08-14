@@ -25,11 +25,18 @@
     <script>
         $('#log').append('<p>' + Date.now() + ': Initiating handshake: waiting for prime, generator, and pubkey </p>');
         $.get('/diffie-hellman/start', function (result) {
-            sessionStorage['serverPubKey'] = result.key;
-            sessionStorage['generator'] = result.generator;
-            sessionStorage['prime'] = result.prime;
-            $('#log').append('<p>' + Date.now() + ': Handshake response recieved. Loading crypto module...</p>');
-            $.getScript('/js/bundle.js');
+            if (result && result.success)
+            {
+                sessionStorage['serverPubKey'] = result.key;
+                //sessionStorage['generator'] = result.generator;
+                //sessionStorage['prime'] = result.prime;
+                $('#log').append('<p>' + Date.now() + ': Handshake response recieved. Loading crypto module...</p>');
+                $.getScript('/js/bundle.js');
+            }
+            else
+                $('#log').append('<p>' + Date.now() + ': Handshake initialization failed</p>');
+        }).fail(function () {
+            $('#log').append('<p>' + Date.now() + ': Handshake initialization failed</p>')
         });
     </script>
 </body>

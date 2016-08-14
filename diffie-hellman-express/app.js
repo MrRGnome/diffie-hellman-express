@@ -13,6 +13,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/diffie-hellman/start', diffieHellman.Start);
 app.post('/diffie-hellman/finish', diffieHellman.Finish);
+app.post('/diffie-hellman/compare', diffieHellman.Compare);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
