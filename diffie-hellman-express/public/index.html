@@ -23,18 +23,14 @@
         
     </div>
     <script>
-        $.ready(setTimeout(function () {
-            $.get('/diffie-hellman/start', function (result) {
-                sessionStorage['serverPubKey'] = result.key;
-                sessionStorage['generator'] = result.generator;
-                sessionStorage['prime'] = result.prime;
-                $('#log').append('<p>' + Date.now() + ': Handshake response recieved</p>');
-                setTimeout(function () {
-                    $.getScript('/js/bundle.js');
-                }, 100);
-            });
-            $('#log').append('<p>' + Date.now() + ': Loading crypto module (this may take some time) and initiating handshake: waiting for prime, generator, and pubkey </p>');
-        }, 100));
+        $('#log').append('<p>' + Date.now() + ': Initiating handshake: waiting for prime, generator, and pubkey </p>');
+        $.get('/diffie-hellman/start', function (result) {
+            sessionStorage['serverPubKey'] = result.key;
+            sessionStorage['generator'] = result.generator;
+            sessionStorage['prime'] = result.prime;
+            $('#log').append('<p>' + Date.now() + ': Handshake response recieved. Loading crypto module...</p>');
+            $.getScript('/js/bundle.js');
+        });
     </script>
 </body>
 </html>
